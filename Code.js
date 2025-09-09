@@ -2,7 +2,7 @@
  * Safely return sheet reference
  */
 function getSheet_() {
-  var sheetName = "Sheet1"; // 👈 update if needed
+  var sheetName = "Sheet1"; // 👈 update if renamed
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName(sheetName);
   if (!sheet) throw new Error("❌ Sheet '" + sheetName + "' not found.");
@@ -18,7 +18,7 @@ function getRecipients_() {
   if (data.length <= 1) throw new Error("❌ No data rows found.");
 
   var headers = data[0];
-  var requiredCols = ["FirstName", "Email", "CompanyName", "Address", "Status", "LastSent"];
+  var requiredCols = ["CompanyName", "Email", "Address", "LOI Link", "Status", "LastSent"];
   requiredCols.forEach(function (col) {
     if (headers.indexOf(col) === -1) {
       throw new Error("❌ Missing required column: " + col);
@@ -45,24 +45,17 @@ function getRecipients_() {
 }
 
 /**
- * Render filled HTML body for one recipient
+ * Render template with token replacement
  */
-function renderTemplate_(recipient) {
-  var data = Object.assign({}, recipient, {
-    ProjectName: "Auto Email System",
-    Role: recipient.Role || "Manager",
-    "University Name": "UST",
-    LOI_Link: "https://example.com/letter",
-    YourName: "Nathaniel Joseph",
-    Email: "you@example.com",
-    Date: Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "MMMM dd, yyyy")
+function renderTemplate(data) {
+  var template = HtmlService.createTemplateFromFile("index");
+  var html = template.getRawContent();
+
+  html = html.replace(/{{(.*?)}}/g, function (match, token) {
+    token = token.trim();
+    return (data && token in data) ? data[token] : "";
   });
 
-  var html = HtmlService.getFile("index").getContent();
-  html = html.replace(/\{\{(.*?)\}\}/g, function (match, token) {
-    var key = token.trim();
-    return (key in data) ? data[key] : "";
-  });
   return html;
 }
 
@@ -72,29 +65,33 @@ function renderTemplate_(recipient) {
 function sendEmail_(recipient, body) {
   MailApp.sendEmail({
     to: recipient.Email,
-    subject: "Proposal from Auto Email System",
+    subject: "Proposal from " + recipient.CompanyName,
     htmlBody: body,
-    name: "Nathaniel Joseph – " + (recipient.Role || "Manager")
+    name: "Shanley Clarence Lacanlale – Project Manager"
   });
 }
 
 /**
- * Update sheet log
+ * Update sheet log (Status, LastSent, LOI Link)
  */
-function updateLog_(sheet, headers, rowIndex, status, error) {
+function updateLog_(sheet, headers, rowIndex, status, error, loiLink) {
   var statusCol = headers.indexOf("Status") + 1;
   var lastSentCol = headers.indexOf("LastSent") + 1;
+  var loiCol = headers.indexOf("LOI Link") + 1;
 
   if (status.startsWith("Sent")) {
     sheet.getRange(rowIndex, statusCol).setValue("Sent");
     sheet.getRange(rowIndex, lastSentCol).setValue(new Date());
+    if (loiLink) {
+      sheet.getRange(rowIndex, loiCol).setValue(loiLink);
+    }
   } else {
     sheet.getRange(rowIndex, statusCol).setValue("Error: " + error);
   }
 }
 
 /**
- * Master function – send all pending emails
+ * Master function – always send emails, update LastSent & LOI link
  */
 function sendAllEmails() {
   try {
@@ -103,15 +100,26 @@ function sendAllEmails() {
     var headers = result.headers;
 
     result.rows.forEach(function (row) {
-      if (row.Status === "Sent") {
-        Logger.log("⏭️ Skipping row " + row._rowIndex + " → Already sent");
-        return;
-      }
-
       try {
-        var body = renderTemplate_(row);
+        // Generate unique LOI and get link
+        var loiLink = generateLOI_(row);
+
+        var data = Object.assign({}, row, {
+          ProjectName: "University of Santo Tomas Software Engineering Team",
+          "University Name": "University of Santo Tomas",
+          LOI_Link: loiLink, // token used in index.html
+          YourName: "Shanley Clarence Lacanlale",
+          Role: "Project Manager",
+          Email: "shanleyclarence.lacanlale.cics@ust.edu.ph",
+          ContactNumber: "0960 293 7255",
+          Date: Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "MMMM dd, yyyy")
+        });
+
+        var body = renderTemplate(data);
         sendEmail_(row, body);
-        updateLog_(sheet, headers, row._rowIndex, "Sent");
+
+        // Always overwrite status + update timestamp + LOI link
+        updateLog_(sheet, headers, row._rowIndex, "Sent", null, loiLink);
         Logger.log("📩 Sent to " + row.Email);
 
       } catch (err) {
@@ -122,7 +130,6 @@ function sendAllEmails() {
 
   } catch (bulkErr) {
     Logger.log("🔥 Bulk send failed: " + bulkErr.message);
-    // Optional notify sender
     try {
       MailApp.sendEmail({
         to: Session.getActiveUser().getEmail(),
