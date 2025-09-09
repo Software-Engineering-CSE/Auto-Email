@@ -2,59 +2,88 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Letter of Intent</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Letter of Intent</title>
 </head>
 
-<body style="background-color: rgb(245, 245, 245);">
-    <div style="max-width: 680px; margin: 40px auto; background-color: #ffffffe4; border: 1px solid #e0e0e0;">
+<body style="background-color: rgb(245, 245, 245); font-family: Helvetica, sans-serif; margin:0; padding:0; color: black;">
+  <div style="max-width: 680px; margin: 40px auto; background: white; border: 1px solid #e0e0e0;">
 
         <header style="background-color: rgb(144, 9, 9); text-align: center;">
             <img style="background-color:rgb(144, 9, 9); width:100%; object-fit: cover;"
-                src="https://software-engineering-cse.github.io/Auto-Email/assets/final-header.png" alt="UST - {{Projectname}} Banner">
+                src="https://software-engineering-cse.github.io/Auto-Email/assets/final-header.png" 
+                alt="UST - Software Engineering Team Banner">
         </header>
 
-        <div>
-            <h2>Letter of Intent</h2>
-            <p><strong>[Date]</strong></p>
-            <p> {{Client’s Name}} <br> {{Position/Title}} <br> {{Company/Organization Name}}<br> {{Address}}</p>
+    <!-- Body -->
+    <div style="padding: 20px;">
+      
 
-            <p>Dear <strong>{{Client’s Name}}</strong>,</p>
+      <h2 style="font-family: Helvetica, sans-serif; font-weight: 700; margin: 0 0 20px;
+           color: #8b0000;
+           ">
+  Software Solutions Proposal
+</h2>
 
-            <p>
-                We, the undersigned students of the Software Engineering program at
-                <strong>{{University Name}}</strong>, are writing to formally express our intent to
-                collaborate with your esteemed organization for the development of a
-                customized software system.
-            </p>
 
-            <p>
-                As part of our academic requirements, we are tasked with undertaking a
-                project that involves the design and implementation of a real-world
-                solution. We believe that partnering with your organization will
-                allow us to create a meaningful system tailored to your needs.
-            </p>
+      <p style="margin: 0 0 12px;"><strong>[Date]</strong></p>
+      <p style="margin: 0 0 12px;">
+        {{FirstName}} <br> {{Role}} <br> {{CompanyName}} <br> {{Address}}
+      </p>
 
-            <!--Call-to-action button-->
-            <a href=" "> Open Letter of Intent</a>
+      <p style="margin: 0 0 12px;">
+        Dear <strong>{{FirstName}}</strong>,
+      </p>
 
-            <p>
-                We would be honored to discuss this opportunity further and to learn how
-                our team may contribute to your goals. Thank you for considering our
-                request. We look forward to the possibility of working with you.
-            </p>
+      <p style="margin: 0 0 12px;">
+        We, the undersigned students of the Software Engineering program at
+        <strong>{{University Name}}</strong>, are writing to formally express our intent to
+        collaborate with your esteemed organization for the development of a
+        customized software system.
+      </p>
 
-            <p>Sincerely,</p>
-            <p>{{Your Team Name}} <br> {{Course / Section}} <br> {{University Name}}</p>
-        </div>
+      <p style="margin: 0 0 12px;">
+        As part of our academic requirements, we are tasked with undertaking a
+        project that involves the design and implementation of a real-world
+        solution. We believe that partnering with your organization will
+        allow us to create a meaningful system tailored to your needs.
+      </p>
 
-        <footer
-            style="background-color: rgba(238, 236, 236, 0.988); padding:18px 30px; color:rgb(68, 68, 68); line-height: 12px; text-align: center;">
-            <p><strong>{{ProjectName}}</strong></p>
-            <p>Contact us: <span style="color:rgb(144, 9, 9);">example@email.com </span>| +63 123 456 7890</p>
-        </footer>
+      <!-- Call-to-action button -->
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 20px 0;">
+        <tr>
+          <td align="center">
+            <a href="{{LOI_Link}}" target="_blank" rel="noopener noreferrer"
+               style="display:inline-block; font-family: Helvetica, sans-serif; background: linear-gradient(50deg, #8b0000, #E32C02);
+                      color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 4px;
+                      font-weight: 200; box-shadow: 3px 3px 8px #E3A596;">
+              Open Letter of Intent
+            </a>
+          </td>
+        </tr>
+      </table>
+
+      <p style="margin: 12px 0;">
+        We would be honored to discuss this opportunity further and to learn how
+        our team may contribute to your goals. Thank you for considering our
+        request. We look forward to the possibility of working with you.
+      </p>
+
+      <p style="margin: 0 0 12px;">Sincerely,</p>
+      <p style="margin: 0;">
+        {{YourName}} <br> {{Role}} <br> {{University Name}}
+      </p>
     </div>
-</body>
 
+    <!-- Footer -->
+<div style="background-color: black;
+            padding:18px 30px; text-align: center; font-family: Helvetica, sans-serif;">
+  <p style="margin: 4px 0; color: white;"><strong>{{ProjectName}}</strong></p>
+  <p style="margin: 4px 0; color: white;">
+    Contact us: <span style="color:white;">{{Email}}</span> | +63 123 456 7890
+  </p>
+</div>
+  </div>
+</body>
 </html>
