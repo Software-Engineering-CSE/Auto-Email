@@ -13,28 +13,25 @@
     <!-- Header -->
     <header style="background-color: rgb(144, 9, 9); text-align: center;">
       <img style="background-color:rgb(144, 9, 9); width:100%; object-fit: cover;"
-        src="https://software-engineering-cse.github.io/Auto-Email/assets/header.png"
+        src="https://software-engineering-cse.github.io/Auto-Email/assets/final-header.png"
         alt="UST - {{ProjectName}} Banner">
     </header>
 
     <!-- Body -->
     <div style="padding: 20px;">
-      
 
       <h2 style="font-family: Helvetica, sans-serif; font-weight: 700; margin: 0 0 20px;
-           color: #8b0000;
-           ">
-  Software Solutions Proposal
-</h2>
+           color: #8b0000;">
+        Software Solutions Proposal
+      </h2>
 
-
-      <p style="margin: 0 0 12px;"><strong>[Date]</strong></p>
+      <p style="margin: 0 0 12px;"><strong>{{Date}}</strong></p>
       <p style="margin: 0 0 12px;">
-        {{FirstName}} <br> {{Role}} <br> {{CompanyName}} <br> {{Address}}
+        {{CompanyName}} <br> {{Address}}
       </p>
 
       <p style="margin: 0 0 12px;">
-        Dear <strong>{{FirstName}}</strong>,
+        Dear <strong>{{CompanyName}}</strong>,
       </p>
 
       <p style="margin: 0 0 12px;">
@@ -73,18 +70,18 @@
 
       <p style="margin: 0 0 12px;">Sincerely,</p>
       <p style="margin: 0;">
-        {{YourName}} <br> {{Role}} <br> {{University Name}}
+        {{YourName}} <br> Project Manager <br> {{University Name}}
       </p>
     </div>
 
     <!-- Footer -->
-<div style="background-color: black;
-            padding:18px 30px; text-align: center; font-family: Helvetica, sans-serif;">
-  <p style="margin: 4px 0; color: white;"><strong>{{ProjectName}}</strong></p>
-  <p style="margin: 4px 0; color: white;">
-    Contact us: <span style="color:white;">{{Email}}</span> | +63 123 456 7890
-  </p>
-</div>
+    <div style="background-color: black;
+                padding:18px 30px; text-align: center; font-family: Helvetica, sans-serif;">
+      <p style="margin: 4px 0; color: white;"><strong>{{ProjectName}}</strong></p>
+      <p style="margin: 4px 0; color: white;">
+        Contact us: <span style="color:white;">{{Email}}</span> | 0960 293 7255
+      </p>
+    </div>
   </div>
 </body>
 </html>
